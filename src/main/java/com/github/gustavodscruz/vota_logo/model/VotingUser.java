@@ -15,6 +15,7 @@ public class VotingUser {
     private Long id;
     private String name;
     private String email;
+    @Enumerated(value = EnumType.STRING)
     private UserPermissionsType type;
     @CreatedDate
     private LocalDateTime signInDate;

@@ -1,9 +1,8 @@
 package com.github.gustavodscruz.vota_logo.model;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Type;
+import utils.JsonMapConverter;
 
 import java.util.Map;
 
@@ -20,7 +19,7 @@ public class VotingRule {
 
     private String type;
 
-    @Type(JsonType.class)
+    @Convert(converter = JsonMapConverter.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> parameters;
 }

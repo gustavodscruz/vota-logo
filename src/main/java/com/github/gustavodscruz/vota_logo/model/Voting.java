@@ -25,6 +25,8 @@ public class Voting {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
+    private VotingStatus status;
+
     @Enumerated(value = EnumType.STRING)
     private VotingVisibility visibility;
 
@@ -40,6 +42,9 @@ public class Voting {
     @CreatedDate
     private LocalDateTime createdAt;
 
+    @ElementCollection
+    @CollectionTable(name = "voting_tags", joinColumns = @JoinColumn(name = "voting_id"))
+    @Column(name = "tag")
     private List<String> tags;
 
 }

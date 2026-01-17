@@ -1,10 +1,9 @@
 package com.github.gustavodscruz.vota_logo.model;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
+import utils.JsonMapConverter;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -13,7 +12,11 @@ import java.util.Map;
 @Entity
 @Table
 public class Vote {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "voting_id")
     private Voting voting;
@@ -21,6 +24,7 @@ public class Vote {
     @ManyToOne
     private VotingOption option;
 
+    @ManyToOne
     private VotingUser user;
 
     private String sessionId;
@@ -34,7 +38,7 @@ public class Vote {
 
     private String justification;
 
-    @Type(JsonType.class)
+    @Convert(converter = JsonMapConverter.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> metadata;
 
