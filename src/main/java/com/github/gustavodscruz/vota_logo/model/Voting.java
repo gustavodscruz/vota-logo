@@ -2,7 +2,11 @@ package com.github.gustavodscruz.vota_logo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.CreatedDate;
+
+import com.github.gustavodscruz.vota_logo.model.dto.VoteRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +15,17 @@ import java.util.List;
 @Table
 @Entity
 public class Voting {
+
+    public Voting(VoteRequest request) {
+        BeanUtils.copyProperties(request, this);
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Voting(VoteRequest request, VotingUser creator) {
+        BeanUtils.copyProperties(request, this);
+        this.createdAt = LocalDateTime.now();
+        this.creator = creator;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
