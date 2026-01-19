@@ -9,6 +9,12 @@ services:
       - '5432:5432'
     networks:
       vota-logo:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
   app:
     build: .
     environment:
@@ -16,7 +22,8 @@ services:
     ports:
       - '8080:8080'
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       vota-logo:
 

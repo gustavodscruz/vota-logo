@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
-@Table
+@Table(name = "voting_option")
 @Entity
 public class VotingOption {
     @Id
@@ -14,6 +14,7 @@ public class VotingOption {
     private String text;
     private String description;
     private String imageUrl;
+    @Column(name = "display_order")
     private Integer order = 0;
     private Boolean isActive = true;
 }

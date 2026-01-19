@@ -3,7 +3,8 @@ package com.github.gustavodscruz.vota_logo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
-import utils.JsonMapConverter;
+
+import com.github.gustavodscruz.vota_logo.utils.JsonMapConverter;
 
 import java.time.LocalDateTime;
 import java.util.Map;

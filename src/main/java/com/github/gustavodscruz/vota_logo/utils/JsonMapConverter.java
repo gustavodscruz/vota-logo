@@ -1,4 +1,4 @@
-package utils;
+package com.github.gustavodscruz.vota_logo.utils;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

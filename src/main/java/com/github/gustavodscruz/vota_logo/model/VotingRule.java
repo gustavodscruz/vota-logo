@@ -2,9 +2,10 @@ package com.github.gustavodscruz.vota_logo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import utils.JsonMapConverter;
 
 import java.util.Map;
+
+import com.github.gustavodscruz.vota_logo.utils.JsonMapConverter;
 
 @Data
 @Table

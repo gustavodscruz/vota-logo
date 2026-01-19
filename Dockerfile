@@ -1,16 +1,29 @@
-FROM maven:3.9.12-amazoncorretto-21-debian AS dependencies
-COPY pom.xml /build/
-WORKDIR /build/
-RUN mvn --batch-mode dependency:go-offline dependency:resolve-plugins
+FROM maven:3.9.7-eclipse-temurin-21-alpine AS build
 
-FROM maven:3.9.12-amazoncorretto-21-debian as build
-COPY --from=dependencies /root/.m2 /root/.m2
-COPY pom.xml /build/
-COPY src /build/src
-WORKDIR /build/
-RUN mvn -P dockerfile --batch-mode --fail-fast package
+# Define o diretório de trabalho dentro do contêiner
+WORKDIR /app
 
-FROM eclipse-temurin:21-jre as runtime
-COPY --from=build /build/target/application.jar ./application.jar
+# Copia o arquivo pom.xml e os arquivos de dependências para o diretório de trabalho
+COPY pom.xml ./
+COPY src ./src
+
+# Compila a aplicação
+RUN mvn clean package -DskipTests
+
+# Etapa 2: Criar a imagem final para execução
+FROM eclipse-temurin:21-jre-alpine
+
+# Define o diretório de trabalho dentro do contêiner
+WORKDIR /app
+
+# Cria um argumento para o nome da aplicação
+ARG JAR_FILE=target/application.jar
+
+# Copia o jar compilado da etapa anterior
+COPY --from=build /app/${JAR_FILE} app.jar
+
+# Expõe a porta da aplicação
 EXPOSE 8080
-CMD ["java", "-jar", "./application.jar"]
+
+# Define o comando padrão para rodar a aplicação
+CMD ["java", "-jar", "app.jar"]
